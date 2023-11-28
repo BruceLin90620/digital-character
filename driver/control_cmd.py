@@ -1,4 +1,4 @@
-from DXL_motor_control import DXL_Conmunication
+from driver.DXL_motor_control import DXL_Conmunication
 
 DEVICE_NAME = "/dev/ttyUSB0"
 B_RATE      = 57600

@@ -1,7 +1,7 @@
 import threading
 import socket
 import json
-from control_cmd import ControlCmd
+from driver.control_cmd import ControlCmd
 
 class Server():
     def __init__(self, server_ip, unity_ip, port):
