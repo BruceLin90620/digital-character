@@ -29,6 +29,7 @@ class DXL_Conmunication(object):
         DEVICENAME                  = device_name       # Check which port is being used on your controller
         # DEVICENAME                  = '/dev/tty.usbserial-FT2N0CMQ'
                                                         # ex) Windows: "COM1"   Linux: "/dev/ttyUSB0" Mac: "/dev/tty.usbserial-*"
+
         PROTOCOL_VERSION            = 2.0               # See which protocol version is used in the Dynamixel
         self.log = log.LogHandler(self.__class__.__name__, __name__, self.log_level, self.log_file_level)
         self.port_handler = dxlSDK.PortHandler(DEVICENAME)
@@ -39,7 +40,6 @@ class DXL_Conmunication(object):
         self.__communicate_error_count = 0
 
         self.portHandler_Check_Pass = False
-
 
     def activateDXLConnection(self):
         try:

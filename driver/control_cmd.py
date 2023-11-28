@@ -18,11 +18,13 @@ class ControlCmd:
         motor8 = self.dynamixel.createMotor('motor8', motor_number=8)
         motor9 = self.dynamixel.createMotor('motor9', motor_number=9)
 
-        self.motor_list = [motor0, motor1, motor2, motor3, motor4, 
-                    motor5, motor6, motor7, motor8, motor9]
+        self.motor_list = [ motor0, motor1, motor2, motor3, motor4, 
+                            motor5, motor6, motor7, motor8, motor9]
         
         self.motor_position = { "motor0":0, "motor1":0, "motor2":0, "motor3":0, "motor4":0,
                                 "motor5":0, "motor6":0, "motor7":0, "motor8":0, "motor9":0}
+        
+        self.dynamixel.rebootAllMotor()
         self.dynamixel.updateMotorData()
 
     def disable_all_motor(self):
@@ -33,8 +35,17 @@ class ControlCmd:
     def read_motor_data(self):
         for motor in self.motor_list:
             position, ret = motor.directReadData(132, 4)
+            print("motor id:", motor.DXL_ID, "motor position:", position)
+            while abs(position) > 4095:
+                position = position - (position/abs(position)) * 4095
+            # if position > 4095:
+            #     print(position, "+")
+            #     position -= 
+            # elif position < -4095:
+            #     print(position, "-")
+            #     position += 2147483647
             self.motor_position[motor.name] = position
-            # print("motor id:", motor.DXL_ID, "motor position:", position)
+            print("motor id:", motor.DXL_ID, "motor position:", position)
         return self.motor_position
 
 

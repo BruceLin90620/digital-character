@@ -1,6 +1,7 @@
 import threading
 import socket
 import json
+import time
 from driver.control_cmd import ControlCmd
 
 class Server():
@@ -33,6 +34,8 @@ class UnitySocketClient():
                 msg = json.dumps(all_servo_position)
                 
                 client_socket.send(bytes(msg, encoding="utf-8"))
+
+                time.sleep(0.002)
             except InterruptedError:
                 print("InterruptedError")
                 client_socket.close()
