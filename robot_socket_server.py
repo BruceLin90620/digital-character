@@ -52,7 +52,7 @@ class UnitySocketClient():
 
 if __name__ == "__main__":
     server_ip = '10.100.3.18'
-    unity_ip = '10.100.3.18' 
+    unity_ip = '10.100.2.48' 
     port = 8000
 
     demo_server = Server(server_ip, unity_ip, port)

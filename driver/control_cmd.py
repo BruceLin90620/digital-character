@@ -44,7 +44,7 @@ class ControlCmd:
             # elif position < -4095:
             #     print(position, "-")
             #     position += 2147483647
-            self.motor_position[motor.name] = position
+            self.motor_position[motor.name] = int(position)
             print("motor id:", motor.DXL_ID, "motor position:", position)
         return self.motor_position
 
