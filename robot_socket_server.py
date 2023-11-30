@@ -2,7 +2,10 @@ import threading
 import socket
 import json
 import time
-from driver.control_cmd import ControlCmd
+import sys
+
+sys.path.append("/home/bruce/CSL_work/digital-character/driver")
+from control_cmd import ControlCmd, LED_OFF, LED_ON
 
 class Server():
     def __init__(self, server_ip, unity_ip, port):
@@ -42,6 +45,7 @@ class UnitySocketClient():
 
     def scanForUnityClientConnection(self, unity_client_conn, unity_client_addr):
         try:
+            self.control_cmd.motor_led_control(LED_ON)
             print("Connect to Unity Client Success, addr: {}".format(unity_client_addr))
             client_thread = threading.Thread(target=self.handleClient, args=(unity_client_conn, 
                                             unity_client_addr))
@@ -52,7 +56,8 @@ class UnitySocketClient():
 
 if __name__ == "__main__":
     server_ip = '10.100.3.18'
-    unity_ip = '10.100.2.48' 
+    # unity_ip = '10.100.2.48' 
+    unity_ip = '10.100.3.18'
     port = 8000
 
     demo_server = Server(server_ip, unity_ip, port)

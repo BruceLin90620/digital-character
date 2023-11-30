@@ -1,8 +1,11 @@
-from driver.DXL_motor_control import DXL_Conmunication
+from DXL_motor_control import DXL_Conmunication
 
 DEVICE_NAME = "/dev/ttyUSB0"
 B_RATE      = 57600
-   
+LED_ADDR_LEN = (65,1)
+LED_ON = 1
+LED_OFF = 0
+
 class ControlCmd:
     def __init__(self):
         self.dynamixel = DXL_Conmunication(DEVICE_NAME, B_RATE)
@@ -34,19 +37,19 @@ class ControlCmd:
 
     def read_motor_data(self):
         for motor in self.motor_list:
-            position, ret = motor.directReadData(132, 4)
-            print("motor id:", motor.DXL_ID, "motor position:", position)
+            position, _ = motor.directReadData(132, 4)
+            # print("motor id:", motor.DXL_ID, "motor position:", position)
             while abs(position) > 4095:
                 position = position - (position/abs(position)) * 4095
-            # if position > 4095:
-            #     print(position, "+")
-            #     position -= 
-            # elif position < -4095:
-            #     print(position, "-")
-            #     position += 2147483647
-            self.motor_position[motor.name] = int(position)
-            print("motor id:", motor.DXL_ID, "motor position:", position)
+            self.motor_position[motor.name] = int(position*360/4095)
+
         return self.motor_position
+    
+    def motor_led_control(self, state = LED_OFF):
+        for motor in self.motor_list:
+            led_on = motor.directWriteData(state, *LED_ADDR_LEN)
+            
+        return led_on
 
 
 if __name__ == "__main__":

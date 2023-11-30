@@ -1,7 +1,7 @@
 #332Hz at 3000000 BAURATE at tx2
 import dynamixel_sdk as dxlSDK
 import sys, math, time
-import log
+import log as log
 
 POSITION_RATIO = 2*math.pi/4096
 VELOCITY_RATIO = 0.229*2*math.pi/60
