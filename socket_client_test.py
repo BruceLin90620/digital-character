@@ -4,7 +4,8 @@ import socket
 import select
 import time
 
-HOST = '10.100.3.18'
+# HOST = '10.100.3.18'
+HOST = '10.100.3.66'
 PORT = 8000
 
 ACK_TEXT = 'text_received'
