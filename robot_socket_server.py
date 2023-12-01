@@ -45,7 +45,7 @@ class UnitySocketClient():
 
     def scanForUnityClientConnection(self, unity_client_conn, unity_client_addr):
         try:
-            self.control_cmd.motor_led_control(LED_ON)
+            
             print("Connect to Unity Client Success, addr: {}".format(unity_client_addr))
             client_thread = threading.Thread(target=self.handleClient, args=(unity_client_conn, 
                                             unity_client_addr))
