@@ -13,18 +13,19 @@ ACK_TEXT = 'text_received'
 
 def main():
     # instantiate a socket object
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    # sock.bind((HOST, PORT))
     print('socket instantiated')
 
     # connect the socket
-    connectionSuccessful = False
-    while not connectionSuccessful:
-        try:
-            sock.connect((HOST, PORT))    # Note: if execution gets here before the server starts up, this line will cause an error, hence the try-except
-            print('socket connected')
-            connectionSuccessful = True
-        except:
-            pass
+    # connectionSuccessful = False
+    # while not connectionSuccessful:
+    #     try:
+    #         # sock.connect((HOST, PORT))    # Note: if execution gets here before the server starts up, this line will cause an error, hence the try-except
+    #         print('socket connected')
+    #         connectionSuccessful = True
+    #     except:
+    #         pass
         # end try
     # end while
 
@@ -40,7 +41,7 @@ def main():
 
 def receiveTextViaSocket(sock):
     # get the text via the scoket
-    encodedMessage = sock.recv(1024)
+    encodedMessage = sock.recvfrom(1024)
 
     # if we didn't get anything, log an error and bail
     if not encodedMessage:
@@ -49,15 +50,16 @@ def receiveTextViaSocket(sock):
     # end if
 
     # decode the received text message
-    message = encodedMessage.decode('utf-8')
+    print(encodedMessage)
+    # message = encodedMessage.decode('utf-8')
 
     # now time to send the acknowledgement
     # encode the acknowledgement text
-    encodedAckText = bytes(ACK_TEXT, 'utf-8')
+    # encodedAckText = bytes(ACK_TEXT, 'utf-8')
     # send the encoded acknowledgement text
-    sock.sendall(encodedAckText)
+    # sock.sendall(encodedAckText)
 
-    return message
+    return encodedMessage
 # end function
 
 if __name__ == '__main__':

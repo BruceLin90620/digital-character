@@ -35,7 +35,6 @@ class UnitySocketClient():
         while True:
             try:
                 all_servo_position = self.control_cmd.read_motor_data()
-                print("all_servo_position", all_servo_position)
                 msg = json.dumps(all_servo_position)
                 
                 client_socket.send(bytes(msg, encoding="utf-8"))
@@ -59,7 +58,7 @@ class UnitySocketClient():
 if __name__ == "__main__":
     server_ip = '10.100.3.66'
     unity_ip = '10.100.2.48' 
-    #unity_ip = '10.100.3.18'
+    # unity_ip = '10.100.3.18'
     port = 8000
 
     demo_server = Server(server_ip, unity_ip, port)

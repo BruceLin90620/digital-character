@@ -5,15 +5,15 @@ import traceback
 import json 
 
 # Keyboard interrupt 
-fd = sys.stdin.fileno()
-old_settings = termios.tcgetattr(fd)
-def getch():
-    try:
-        tty.setraw(sys.stdin.fileno())
-        ch = sys.stdin.read(1)
-    finally:
-        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
-    return ch
+# fd = sys.stdin.fileno()
+# old_settings = termios.tcgetattr(fd)
+# def getch():
+#     try:
+#         tty.setraw(sys.stdin.fileno())
+#         ch = sys.stdin.read(1)
+#     finally:
+#         termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+#     return ch
 
 
 # main control command
@@ -42,15 +42,15 @@ class ControlCmd:
         motor8 = self.dynamixel.createMotor('motor8', motor_number=8)
         motor9 = self.dynamixel.createMotor('motor9', motor_number=9)
 
-        # self.motor_list = [ motor0, motor1, motor2, motor3, motor4, 
-        #                     motor5, motor6, motor7, motor8, motor9]
+        self.motor_list = [ motor0, motor1, motor2, motor3, motor4, 
+                            motor5, motor6, motor7, motor8, motor9]
         
-        self.motor_list = [motor1]
+        # self.motor_list = [motor1]
         
-        # self.motor_position = { "motor0":0, "motor1":0, "motor2":0, "motor3":0, "motor4":0,
-        #                         "motor5":0, "motor6":0, "motor7":0, "motor8":0, "motor9":0}
+        self.motor_position = { "motor0":0, "motor1":0, "motor2":0, "motor3":0, "motor4":0,
+                                "motor5":0, "motor6":0, "motor7":0, "motor8":0, "motor9":0}
         
-        self.motor_position = {"motor1":0}
+        # self.motor_position = {"motor1":0}
         
         self.dynamixel.rebootAllMotor()
         self.dynamixel.updateMotorData()
@@ -68,9 +68,26 @@ class ControlCmd:
         for motor in self.motor_list:
             position, _ = motor.directReadData(132, 4)
             # print("motor id:", motor.DXL_ID, "motor position:", position)
-            while abs(position) > 4095:
-                position = position - (position/abs(position)) * 4095
-            self.motor_position[motor.name] = int(position*360/4095)
+            # while abs(position) > 4095:
+            # print("motor position:", position)
+            if (position) > 4294000000:
+                # print("motor position:", position)
+                position = position - 4294967295 
+                # print("motor position:", position)
+            elif (position) > 4095:
+                # print("motor position:", position)
+                position = position - 4095
+                # print("motor position:", position)
+
+            elif (position) < -4095:
+                position = position + 4095
+            # print("motor position:", position)
+            #     position = position - (position/abs(position)) * 4095
+
+            position = int(position*360/4095)
+            if position > 180:
+                position -= 360
+            self.motor_position[motor.name] = position
 
         return self.motor_position
     
